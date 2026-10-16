@@ -1,0 +1,18 @@
+[
+	{
+		"label": "Home",
+		"href": "/"
+	},
+	{
+		"label": "Vehicles",
+		"href": "/vehicles"
+	},
+	{
+		"label": "About Us",
+		"href": "/about"
+	},
+	{
+		"label": "Contact Us",
+		"href": "/contact"
+	}
+]
