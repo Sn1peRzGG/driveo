@@ -86,8 +86,15 @@ export default function CalendarInput({
 				<CalendarIcon className='w-4 h-4 text-text-muted' />
 			</div>
 
+			{isOpen && (
+				<div
+					className='fixed inset-0 bg-black/40 sm:hidden z-40'
+					onClick={() => setIsOpen(false)}
+				/>
+			)}
+
 			<div
-				className={`absolute top-12 left-0 w-72 bg-card-bg border border-border-main rounded-xl shadow-2xl z-50 p-4 font-work-sans transition-all duration-200 origin-top ${
+				className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] max-w-[320px] sm:absolute sm:top-12 sm:left-0 sm:translate-x-0 sm:translate-y-0 sm:w-72 bg-card-bg border border-border-main rounded-xl shadow-2xl z-50 p-4 font-work-sans transition-all duration-200 ${
 					isOpen
 						? 'opacity-100 scale-100 pointer-events-auto'
 						: 'opacity-0 scale-95 pointer-events-none'
@@ -127,7 +134,7 @@ export default function CalendarInput({
 					))}
 				</div>
 
-				<div className='grid grid-cols-7 gap-1'>
+				<div className='grid grid-cols-7 gap-1 place-items-center'>
 					{Array.from({ length: firstDay }).map((_, index) => (
 						<div key={`empty-${index}`} />
 					))}

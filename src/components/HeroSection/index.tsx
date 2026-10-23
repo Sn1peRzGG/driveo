@@ -42,6 +42,7 @@ export default function HeroSection() {
 			<Image
 				src='/explore_cars.png'
 				alt='Explore Cars'
+				loading='eager'
 				width={700}
 				height={400}
 				className='absolute bottom-0 left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-1/3 w-3/4 xl:w-1/2 h-auto object-cover z-0 pointer-events-none blur-sm opacity-60 xl:opacity-100'

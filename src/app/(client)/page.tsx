@@ -1,5 +1,7 @@
 'use client'
 
+import FactsSection from '@/src/components/FactsSection'
+import FeaturesSection from '@/src/components/FeaturesSection'
 import HeroSection from '@/src/components/HeroSection'
 import InfoSection from '@/src/components/InfoSection'
 
@@ -10,6 +12,8 @@ export default function Home() {
 				<div className='container-responsive'>
 					<HeroSection />
 					<InfoSection />
+					<FeaturesSection />
+					<FactsSection />
 				</div>
 			</div>
 		</>
