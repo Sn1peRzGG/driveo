@@ -3,9 +3,14 @@
 import { ChevronDown, Search } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
+export interface DropdownOption {
+	label: string
+	value: string
+}
+
 interface DropdownInputProps {
 	label: string
-	options: string[]
+	options: (string | DropdownOption)[]
 	selected: string
 	onSelect: (value: string) => void
 }
@@ -20,9 +25,18 @@ export default function DropdownInput({
 	const [searchQuery, setSearchQuery] = useState('')
 	const dropdownRef = useRef<HTMLDivElement>(null)
 
-	const filteredOptions = options.filter(item =>
-		item.toLowerCase().includes(searchQuery.toLowerCase()),
+	const normalizedOptions: DropdownOption[] = options.map(option =>
+		typeof option === 'string' ? { label: option, value: option } : option,
 	)
+
+	const filteredOptions = normalizedOptions.filter(item =>
+		item.label.toLowerCase().includes(searchQuery.toLowerCase()),
+	)
+
+	const selectedOption = normalizedOptions.find(
+		item => item.value === selected || item.label === selected,
+	)
+	const displayValue = selectedOption ? selectedOption.label : selected
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -31,6 +45,7 @@ export default function DropdownInput({
 				!dropdownRef.current.contains(event.target as Node)
 			) {
 				setIsOpen(false)
+				setSearchQuery('')
 			}
 		}
 		document.addEventListener('mousedown', handleClickOutside)
@@ -43,11 +58,17 @@ export default function DropdownInput({
 				onClick={() => setIsOpen(!isOpen)}
 				className='bg-main-bg rounded-xl h-10 text-[16px] font-work-sans font-normal text-text-main px-4 py-2 flex items-center justify-between cursor-pointer border border-border-main hover:border-border-strong transition-colors duration-200'
 			>
-				<span className={selected ? 'text-text-main' : 'text-text-subtle'}>
-					{selected || label}
+				<span
+					className={
+						displayValue ? 'text-text-main truncate' : 'text-text-subtle'
+					}
+				>
+					{displayValue || label}
 				</span>
 				<ChevronDown
-					className={`w-4 h-4 text-text-muted transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+					className={`w-4 h-4 text-text-muted shrink-0 transition-transform duration-200 ${
+						isOpen ? 'rotate-180' : ''
+					}`}
 				/>
 			</div>
 
@@ -59,7 +80,7 @@ export default function DropdownInput({
 				}`}
 			>
 				<div className='p-2 border-b border-border-main flex items-center gap-2 bg-main-bg transition-colors duration-200'>
-					<Search className='w-4 h-4 text-text-muted ml-1' />
+					<Search className='w-4 h-4 text-text-muted ml-1 shrink-0' />
 					<input
 						type='text'
 						placeholder={`Search ${label.toLowerCase()}...`}
@@ -69,21 +90,29 @@ export default function DropdownInput({
 						autoFocus
 					/>
 				</div>
+
 				<div className='max-h-48 overflow-y-auto'>
 					{filteredOptions.length > 0 ? (
-						filteredOptions.map((option, index) => (
-							<div
-								key={index}
-								onClick={() => {
-									onSelect(option)
-									setIsOpen(false)
-									setSearchQuery('')
-								}}
-								className='px-4 py-2.5 text-sm text-text-main hover:bg-ui-hover cursor-pointer font-work-sans transition-colors duration-200'
-							>
-								{option}
-							</div>
-						))
+						filteredOptions.map((option, index) => {
+							const isSelected =
+								selected === option.value || selected === option.label
+
+							return (
+								<div
+									key={index}
+									onClick={() => {
+										onSelect(option.value)
+										setIsOpen(false)
+										setSearchQuery('')
+									}}
+									className={`px-4 py-2.5 text-sm text-text-main hover:bg-ui-hover cursor-pointer font-work-sans transition-colors duration-200 truncate ${
+										isSelected ? 'bg-ui-hover font-medium' : ''
+									}`}
+								>
+									{option.label}
+								</div>
+							)
+						})
 					) : (
 						<div className='px-4 py-3 text-sm text-text-subtle text-center font-work-sans'>
 							No results found

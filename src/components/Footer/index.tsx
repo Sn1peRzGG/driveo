@@ -1,5 +1,10 @@
+'use client'
+
 import { contactItems } from '@/constants/footerItems'
 import socialData from '@/constants/socialItems.json'
+import api from '@/src/lib/api'
+import { CategoryType } from '@/src/types/category'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import AppBadges from '../ui/AppBadges'
 import Logo from '../ui/Logo'
@@ -13,6 +18,15 @@ interface SocialItem {
 const socialMediaData: SocialItem[] = socialData
 
 export default function Footer() {
+	const { data: categories = [] } = useQuery<CategoryType[]>({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await api.get('/categories')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
+
 	return (
 		<footer className='bg-card-bg w-full transition-colors duration-200 border-t border-border-main'>
 			<div className='w-full max-w-360 px-6 md:px-12 xl:px-16 mx-auto pt-12 md:pt-16 pb-10 flex flex-col justify-between gap-12'>
@@ -141,46 +155,20 @@ export default function Footer() {
 							Vehicles
 						</h2>
 						<ul className='flex flex-col gap-2.5 font-normal text-[15px] md:text-[16px] text-text-muted'>
-							<li>
-								<Link
-									href='/vehicle'
-									className='hover:text-primary transition-colors duration-200'
-								>
-									Sedan
-								</Link>
-							</li>
-							<li>
-								<Link
-									href='/vehicle'
-									className='hover:text-primary transition-colors duration-200'
-								>
-									SUV
-								</Link>
-							</li>
-							<li>
-								<Link
-									href='/vehicle'
-									className='hover:text-primary transition-colors duration-200'
-								>
-									Minivan
-								</Link>
-							</li>
-							<li>
-								<Link
-									href='/vehicle'
-									className='hover:text-primary transition-colors duration-200'
-								>
-									Cabriolet
-								</Link>
-							</li>
-							<li>
-								<Link
-									href='/vehicle'
-									className='hover:text-primary transition-colors duration-200'
-								>
-									Pickup
-								</Link>
-							</li>
+							{categories.length > 0 ? (
+								categories.map(category => (
+									<li key={category._id}>
+										<Link
+											href={`/vehicles?category=${encodeURIComponent(category._id)}`}
+											className='hover:text-primary transition-colors duration-200'
+										>
+											{category.name}
+										</Link>
+									</li>
+								))
+							) : (
+								<li className='text-sm text-text-muted'>Loading...</li>
+							)}
 						</ul>
 					</div>
 

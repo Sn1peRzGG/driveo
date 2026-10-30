@@ -1,31 +1,59 @@
 'use client'
 
 import CalendarInput from '@/src/components/ui/CalendarInput'
-import DropdownInput from '@/src/components/ui/DropdownInput'
+import DropdownInput, {
+	DropdownOption,
+} from '@/src/components/ui/DropdownInput'
+import api from '@/src/lib/api'
+import { CategoryType } from '@/src/types/category'
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export default function HeroSection() {
+	const router = useRouter()
+
 	const [carType, setCarType] = useState<string>('')
 	const [placeOfRental, setPlaceOfRental] = useState<string>('')
 	const [placeOfReturn, setPlaceOfReturn] = useState<string>('')
 	const [rentalDate, setRentalDate] = useState<string>('')
 	const [returnDate, setReturnDate] = useState<string>('')
 
-	const carTypes = ['Sedan', 'SUV', 'Minivan', 'Cabriolet', 'Pickup']
-	const locations = [
-		'New York - JFK Airport',
-		'Los Angeles - LAX',
-		"Chicago - O'Hare",
-		'Miami International',
-		'San Francisco - SFO',
-	]
+	const { data: categories = [] } = useQuery<CategoryType[]>({
+		queryKey: ['categories'],
+		queryFn: async () => {
+			const res = await api.get('/categories')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
 
-	const handleBooking = () => {
-		alert(
-			`Booking Details:\n- Car Type: ${carType || 'Not selected'}\n- Pickup: ${placeOfRental || 'Not selected'}\n- Return: ${placeOfReturn || 'Not selected'}\n- Rental Date: ${rentalDate || 'Not selected'}\n- Return Date: ${returnDate || 'Not selected'}`,
-		)
+	const { data: locations = [] } = useQuery<string[]>({
+		queryKey: ['vehicle-cities'],
+		queryFn: async () => {
+			const res = await api.get('/vehicles/cities')
+			return res.data
+		},
+		staleTime: 1000 * 60 * 10,
+	})
+
+	const categoryOptions: DropdownOption[] = categories.map(cat => ({
+		label: cat.name,
+		value: cat._id,
+	}))
+
+	const handleSearch = () => {
+		const params = new URLSearchParams()
+
+		if (carType) params.append('category', carType)
+		if (placeOfRental) params.append('city', placeOfRental)
+		if (placeOfReturn) params.append('returnCity', placeOfReturn)
+		if (rentalDate) params.append('rentalDate', rentalDate)
+		if (returnDate) params.append('returnDate', returnDate)
+
+		router.push(`/vehicles?${params.toString()}`)
 	}
 
 	return (
@@ -73,7 +101,7 @@ export default function HeroSection() {
 					<div className='w-full flex flex-col gap-4 xl:gap-5 overflow-visible'>
 						<DropdownInput
 							label='Car type'
-							options={carTypes}
+							options={categoryOptions}
 							selected={carType}
 							onSelect={setCarType}
 						/>
@@ -102,7 +130,7 @@ export default function HeroSection() {
 					</div>
 					<button
 						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-colors duration-200 px-7 py-3 cursor-pointer shadow-md'
-						onClick={handleBooking}
+						onClick={handleSearch}
 					>
 						Book now
 					</button>
