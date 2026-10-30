@@ -29,13 +29,13 @@ export default function HeroSection() {
 	}
 
 	return (
-		<div className='rounded-[30px] xl:rounded-[40px] h-auto xl:h-165 bg-primary relative p-6 sm:p-10 xl:p-20'>
+		<div className='rounded-[30px] xl:rounded-[40px] h-auto xl:h-165 bg-primary relative p-6 sm:p-10 xl:p-20 shadow-lg'>
 			<Image
 				src='/skid_marks.png'
 				alt='Skid Marks'
 				fill
 				style={{ objectFit: 'cover' }}
-				className='z-0 pointer-events-none rounded-[30px] xl:rounded-[40px] overflow-hidden'
+				className='z-0 pointer-events-none rounded-[30px] xl:rounded-[40px]'
 				loading='eager'
 			/>
 
@@ -45,7 +45,7 @@ export default function HeroSection() {
 				loading='eager'
 				width={700}
 				height={400}
-				className='absolute bottom-0 left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-1/3 w-3/4 xl:w-1/2 h-auto object-cover z-0 pointer-events-none blur-sm opacity-60 xl:opacity-100'
+				className='absolute bottom-0 left-1/2 -translate-x-1/2 xl:translate-x-0 xl:left-1/3 w-3/4 xl:w-1/2 h-auto object-cover z-0 pointer-events-none blur-sm'
 			/>
 
 			<div className='flex flex-col xl:flex-row items-center justify-between h-full relative z-10 gap-12 xl:gap-0'>
@@ -53,21 +53,21 @@ export default function HeroSection() {
 					<h1 className='font-bold text-4xl sm:text-5xl xl:text-6xl max-w-full xl:max-w-4/5 leading-tight'>
 						Experience the road like never before
 					</h1>
-					<p className='font-normal text-[15px] xl:text-[16px] max-w-full xl:max-w-2/3'>
+					<p className='font-normal text-[15px] xl:text-[16px] max-w-full xl:max-w-2/3 text-white/90'>
 						Choose from our fleet of top-tier cars tailored for any travel
 						style. Enjoy a seamless rental experience with easy pickup and 24/7
 						support.
 					</p>
 					<Link
 						href='/vehicles'
-						className='h-10 w-40 cursor-pointer px-7 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl flex items-center justify-center font-semibold text-[16px] transition-all duration-300 font-inter'
+						className='h-10 w-40 cursor-pointer px-7 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl flex items-center justify-center font-semibold text-[16px] transition-all duration-300 font-inter shadow-md'
 					>
 						View all cars
 					</Link>
 				</div>
 
-				<div className='h-full w-full xl:w-1/3 bg-card-bg text-text-main rounded-[20px] shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between gap-5 relative z-10'>
-					<h2 className='font-work-sans font-semibold text-[24px] xl:text-[28px] text-center'>
+				<div className='h-full w-full xl:w-1/3 bg-card-bg text-text-main rounded-[20px] shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between gap-5 relative z-10 border border-border-main'>
+					<h2 className='font-work-sans font-semibold text-[24px] xl:text-[28px] text-center text-main'>
 						Book your car
 					</h2>
 					<div className='w-full flex flex-col gap-4 xl:gap-5 overflow-visible'>
@@ -101,7 +101,7 @@ export default function HeroSection() {
 						/>
 					</div>
 					<button
-						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-all duration-300 px-7 py-3 cursor-pointer'
+						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-all duration-300 px-7 py-3 cursor-pointer shadow-md'
 						onClick={handleBooking}
 					>
 						Book now

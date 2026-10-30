@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function FactsSection() {
 	return (
-		<div className='py-10 px-6 sm:py-12 sm:px-10 xl:py-15 xl:px-18 rounded-[20px] bg-primary text-white font-work-sans flex flex-col items-center relative overflow-hidden'>
+		<div className='py-10 px-6 sm:py-12 sm:px-10 xl:py-15 xl:px-18 rounded-[20px] bg-primary text-white font-work-sans flex flex-col items-center relative overflow-hidden transition-colors duration-300'>
 			<Image
 				src='/skid_marks2.png'
 				alt='Skid Marks'
@@ -17,7 +17,7 @@ export default function FactsSection() {
 				<h2 className='font-bold text-3xl sm:text-4xl xl:text-[50px] text-center'>
 					Facts in numbers
 				</h2>
-				<p className='mt-3 sm:mt-5 font-normal text-sm sm:text-base text-center max-w-lg xl:max-w-1/2'>
+				<p className='mt-3 sm:mt-5 font-normal text-sm sm:text-base text-center max-w-lg xl:max-w-1/2 text-white/90'>
 					Empowering thousands of journeys every day with reliability, safety,
 					and top-tier service.
 				</p>
@@ -29,16 +29,16 @@ export default function FactsSection() {
 						return (
 							<div
 								key={index}
-								className='bg-white rounded-[20px] p-4 flex gap-4 w-full xl:w-60 shadow-md'
+								className='bg-card-bg border border-border-main rounded-[20px] p-4 flex gap-4 w-full xl:w-60 shadow-md transition-all duration-300'
 							>
-								<div className='w-16 h-16 sm:w-18 sm:h-16 shrink-0 rounded-xl bg-accent flex items-center justify-center'>
+								<div className='w-16 h-16 sm:w-18 sm:h-16 shrink-0 rounded-xl bg-accent text-white flex items-center justify-center transition-colors'>
 									<IconComponent />
 								</div>
 								<div className='flex flex-col justify-between'>
-									<span className='font-bold text-[22px] sm:text-[24px] text-black'>
+									<span className='font-bold text-[22px] sm:text-[24px] text-text-main'>
 										{item.value}
 									</span>
-									<span className='font-semibold text-[15px] sm:text-[16px] text-black/60'>
+									<span className='font-semibold text-[15px] sm:text-[16px] text-text-muted'>
 										{item.label}
 									</span>
 								</div>

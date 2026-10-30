@@ -10,9 +10,18 @@ import Logo from '../Logo'
 interface NavBarProps {
 	isMenuOpen: boolean
 	setIsMenuOpen: (open: boolean) => void
+	showPhoneBlock?: boolean
+	phoneNumber?: string
+	phoneDisplay?: string
 }
 
-export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
+export default function NavBar({
+	isMenuOpen,
+	setIsMenuOpen,
+	showPhoneBlock = true,
+	phoneNumber = '+491711234567',
+	phoneDisplay = '+49 171 1234567',
+}: NavBarProps) {
 	const pathname = usePathname()
 
 	useEffect(() => {
@@ -32,7 +41,7 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 				<div className='flex items-center gap-3'>
 					<button
 						onClick={() => setIsMenuOpen(true)}
-						className='xl:hidden w-10 h-10 border border-border-main rounded-md flex items-center justify-center cursor-pointer hover:bg-main-bg transition-colors'
+						className='xl:hidden w-10 h-10 border border-border-main rounded-md flex items-center justify-center cursor-pointer hover:bg-ui-hover transition-colors'
 						aria-label='Open Menu'
 					>
 						<TextAlignJustify className='w-5 h-5 text-main' />
@@ -55,13 +64,17 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 								>
 									<Link
 										href={item.href}
-										className='group relative flex items-center gap-1 transition-colors duration-200'
+										className='group relative flex items-center gap-1 transition-colors duration-200 hover:text-primary'
 									>
-										<span className={isActive ? 'font-bold' : 'font-medium'}>
+										<span
+											className={
+												isActive ? 'font-bold text-primary' : 'font-medium'
+											}
+										>
 											{item.label}
 										</span>
 										<span
-											className={`absolute -bottom-1 left-0 h-0.5 bg-current transition-all duration-200 group-hover:w-full ${
+											className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full ${
 												isActive ? 'w-full' : 'w-0'
 											}`}
 										/>
@@ -72,37 +85,37 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 					</ul>
 				</nav>
 
-				<div className='flex flex-row items-center justify-center'>
-					<a
-						href='tel:+491711234567'
-						className='w-10 h-10 flex items-center justify-center bg-primary hover:bg-primary-hover rounded-full cursor-pointer transition-colors shrink-0'
-						aria-label='Call Us'
-					>
-						<Phone size={20} color='white' />
-					</a>
-
-					<div className='hidden sm:block ml-3 h-10'>
-						<h2 className='text-[16px] font-normal font-work-sans text-main/80'>
-							Need help?
-						</h2>
-						<a href='tel:+491711234567'>
-							<span className='text-[16px] font-semibold font-work-sans text-main hover:text-primary transition-colors'>
-								+49 171 1234567
-							</span>
+				<div className='flex flex-row items-center gap-3 justify-center'>
+					{showPhoneBlock && (
+						<a
+							href={`tel:${phoneNumber}`}
+							className='w-10 h-10 flex items-center justify-center bg-primary hover:bg-primary-hover rounded-full cursor-pointer transition-colors shrink-0 shadow-sm'
+							aria-label='Call Us'
+						>
+							<Phone size={20} color='white' />
 						</a>
+					)}
+
+					<div className='hidden sm:block'>
+						<Link
+							href='/login'
+							className='px-5 py-2.5 text-sm font-semibold font-inter bg-primary hover:bg-primary-hover text-white rounded-xl transition-colors cursor-pointer shadow-sm flex items-center justify-center'
+						>
+							Log In
+						</Link>
 					</div>
 				</div>
 			</div>
 
 			{isMenuOpen && (
 				<div
-					className='xl:hidden fixed inset-0 bg-black/40 z-50 animate-in fade-in duration-200'
+					className='xl:hidden fixed inset-0 bg-black/50 z-50 animate-in fade-in duration-200'
 					onClick={() => setIsMenuOpen(false)}
 				/>
 			)}
 
 			<div
-				className={`xl:hidden fixed top-0 left-0 h-full w-80 bg-card-bg z-50 shadow-2xl transform transition-transform duration-200 flex flex-col ${
+				className={`xl:hidden fixed top-0 left-0 h-full w-80 bg-card-bg z-50 shadow-2xl transform transition-transform duration-300 flex flex-col border-r border-border-main ${
 					isMenuOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 			>
@@ -144,8 +157,8 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 										onClick={() => setIsMenuOpen(false)}
 										className={`block py-2.5 px-3 rounded-md transition-colors font-inter text-base ${
 											isActive
-												? 'bg-main-bg text-primary font-bold'
-												: 'text-main hover:bg-main-bg/50'
+												? 'bg-ui-hover text-primary font-bold'
+												: 'text-main hover:bg-ui-hover'
 										}`}
 									>
 										{item.label}
@@ -156,20 +169,32 @@ export default function NavBar({ isMenuOpen, setIsMenuOpen }: NavBarProps) {
 					</ul>
 				</nav>
 
-				<div className='p-4 border-t border-border-main bg-main-bg flex items-center gap-3 justify-center'>
-					<div className='w-9 h-9 flex items-center justify-center bg-primary rounded-full shrink-0'>
-						<Phone size={18} color='white' />
-					</div>
-					<div className='flex flex-col'>
-						<span className='text-xs font-normal text-main/80 font-work-sans'>
-							Need help?
-						</span>
-						<a href='tel:+491711234567'>
-							<span className='text-sm font-semibold text-main font-work-sans'>
-								+49 171 1234567
-							</span>
-						</a>
-					</div>
+				<div className='p-4 border-t border-border-main bg-main-bg'>
+					<Link
+						href='/login'
+						onClick={() => setIsMenuOpen(false)}
+						className='w-full mb-3 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-xl font-semibold text-sm transition-colors cursor-pointer shadow-sm block text-center'
+					>
+						Log In
+					</Link>
+
+					{showPhoneBlock && (
+						<div className='flex items-center gap-3 justify-center pt-3 border-t border-border-main'>
+							<div className='w-9 h-9 flex items-center justify-center bg-primary rounded-full shrink-0'>
+								<Phone size={18} color='white' />
+							</div>
+							<div className='flex flex-col'>
+								<span className='text-xs font-normal text-text-muted font-work-sans'>
+									Need help?
+								</span>
+								<a href={`tel:${phoneNumber}`}>
+									<span className='text-sm font-semibold text-main font-work-sans hover:text-primary transition-colors'>
+										{phoneDisplay}
+									</span>
+								</a>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>
