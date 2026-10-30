@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function FeaturesSection() {
 	return (
-		<div className='py-15 flex flex-col xl:flex-row items-center justify-between gap-10 xl:gap-30'>
+		<div className='py-15 flex flex-col xl:flex-row items-center justify-between gap-10 xl:gap-30 transition-colors duration-200'>
 			<div className='w-full xl:w-137.5 h-87.5 xl:h-137.5 relative overflow-hidden rounded-[20px] shrink-0'>
 				<Image
 					src='/features.png'
@@ -18,12 +18,14 @@ export default function FeaturesSection() {
 				{featureItems.map(item => (
 					<div key={item.id}>
 						<div className='flex gap-4 items-center'>
-							<span className='w-8 h-8 shrink-0 rounded-full bg-primary text-white flex items-center justify-center text-[16px] font-semibold'>
+							<span className='w-8 h-8 shrink-0 rounded-full bg-primary text-white flex items-center justify-center text-[16px] font-semibold transition-colors duration-200'>
 								{item.id}
 							</span>
-							<h3 className='text-xl font-semibold'>{item.title}</h3>
+							<h3 className='text-xl font-semibold text-main transition-colors duration-200'>
+								{item.title}
+							</h3>
 						</div>
-						<p className='text-[16px] font-normal mt-3 text-text-main/60'>
+						<p className='text-[16px] font-normal mt-3 text-text-muted transition-colors duration-200'>
 							{item.description}
 						</p>
 					</div>

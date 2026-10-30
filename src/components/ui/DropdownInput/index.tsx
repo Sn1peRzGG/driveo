@@ -41,7 +41,7 @@ export default function DropdownInput({
 		<div className='relative w-full' ref={dropdownRef}>
 			<div
 				onClick={() => setIsOpen(!isOpen)}
-				className='bg-main-bg rounded-xl h-10 text-[16px] font-work-sans font-normal text-text-main px-4 py-2 flex items-center justify-between cursor-pointer border border-border-main hover:border-border-strong transition-all'
+				className='bg-main-bg rounded-xl h-10 text-[16px] font-work-sans font-normal text-text-main px-4 py-2 flex items-center justify-between cursor-pointer border border-border-main hover:border-border-strong transition-colors duration-200'
 			>
 				<span className={selected ? 'text-text-main' : 'text-text-subtle'}>
 					{selected || label}
@@ -58,7 +58,7 @@ export default function DropdownInput({
 						: 'opacity-0 scale-95 pointer-events-none'
 				}`}
 			>
-				<div className='p-2 border-b border-border-main flex items-center gap-2 bg-main-bg'>
+				<div className='p-2 border-b border-border-main flex items-center gap-2 bg-main-bg transition-colors duration-200'>
 					<Search className='w-4 h-4 text-text-muted ml-1' />
 					<input
 						type='text'
@@ -79,7 +79,7 @@ export default function DropdownInput({
 									setIsOpen(false)
 									setSearchQuery('')
 								}}
-								className='px-4 py-2.5 text-sm text-text-main hover:bg-ui-hover cursor-pointer font-work-sans transition-colors'
+								className='px-4 py-2.5 text-sm text-text-main hover:bg-ui-hover cursor-pointer font-work-sans transition-colors duration-200'
 							>
 								{option}
 							</div>

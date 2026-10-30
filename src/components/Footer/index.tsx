@@ -14,9 +14,9 @@ const socialMediaData: SocialItem[] = socialData
 
 export default function Footer() {
 	return (
-		<footer className='bg-card-bg w-full'>
+		<footer className='bg-card-bg w-full transition-colors duration-200 border-t border-border-main'>
 			<div className='w-full max-w-360 px-6 md:px-12 xl:px-16 mx-auto pt-12 md:pt-16 pb-10 flex flex-col justify-between gap-12'>
-				<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-10'>
+				<div className='flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-10 border-b border-border-main'>
 					<Logo />
 
 					{contactItems.map((item, index) => {
@@ -41,12 +41,12 @@ export default function Footer() {
 								key={index}
 								className='flex items-center gap-3 font-work-sans text-[15px] md:text-[16px]'
 							>
-								<div className='bg-accent p-2.5 rounded-full flex items-center justify-center shrink-0'>
+								<div className='bg-accent p-2.5 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200'>
 									<IconComponent className='w-5 h-5 text-card-bg' />
 								</div>
 
 								<div className='flex flex-col'>
-									<span className='font-normal text-text-main/70 text-sm'>
+									<span className='font-normal text-text-muted text-sm transition-colors duration-200'>
 										{item.label}
 									</span>
 									<a
@@ -54,7 +54,7 @@ export default function Footer() {
 										{...(isExternal
 											? { target: '_blank', rel: 'noopener noreferrer' }
 											: {})}
-										className='font-semibold hover:text-primary transition-colors'
+										className='font-semibold text-main hover:text-primary transition-colors duration-200'
 									>
 										{item.value}
 									</a>
@@ -66,7 +66,7 @@ export default function Footer() {
 
 				<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-16 font-work-sans'>
 					<div className='flex flex-col justify-between gap-6'>
-						<p className='leading-relaxed font-medium text-[16px] text-text-main/90 max-w-sm'>
+						<p className='leading-relaxed font-medium text-[16px] text-text-muted max-w-sm transition-colors duration-200'>
 							Seamless car rentals for every journey. Drive with comfort,
 							flexibility, and confidence.
 						</p>
@@ -78,7 +78,7 @@ export default function Footer() {
 									target='_blank'
 									rel='noopener noreferrer'
 									aria-label={social.name}
-									className='rounded-full w-9 h-9 flex items-center justify-center bg-text-main hover:bg-primary transition-colors text-card-bg'
+									className='rounded-full w-9 h-9 flex items-center justify-center bg-text-main hover:bg-primary transition-colors duration-200 text-card-bg'
 								>
 									<svg viewBox='0 0 24 24' className='w-5 h-5 fill-current'>
 										<path d={social.path} />
@@ -89,14 +89,14 @@ export default function Footer() {
 					</div>
 
 					<div className='flex flex-col gap-4'>
-						<h2 className='font-semibold text-[18px] md:text-[20px]'>
+						<h2 className='font-semibold text-[18px] md:text-[20px] text-main transition-colors duration-200'>
 							Useful links
 						</h2>
-						<ul className='flex flex-col gap-2.5 font-normal text-[15px] md:text-[16px]'>
+						<ul className='flex flex-col gap-2.5 font-normal text-[15px] md:text-[16px] text-text-muted'>
 							<li>
 								<Link
 									href='/about'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									About Us
 								</Link>
@@ -104,7 +104,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/contact'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Contact
 								</Link>
@@ -112,7 +112,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/gallery'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Gallery
 								</Link>
@@ -120,7 +120,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/blog'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Blog
 								</Link>
@@ -128,7 +128,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/faq'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									F.A.Q
 								</Link>
@@ -137,14 +137,14 @@ export default function Footer() {
 					</div>
 
 					<div className='flex flex-col gap-4'>
-						<h2 className='font-semibold text-[18px] md:text-[20px]'>
+						<h2 className='font-semibold text-[18px] md:text-[20px] text-main transition-colors duration-200'>
 							Vehicles
 						</h2>
-						<ul className='flex flex-col gap-2.5 font-normal text-[15px] md:text-[16px]'>
+						<ul className='flex flex-col gap-2.5 font-normal text-[15px] md:text-[16px] text-text-muted'>
 							<li>
 								<Link
 									href='/vehicle'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Sedan
 								</Link>
@@ -152,7 +152,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/vehicle'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									SUV
 								</Link>
@@ -160,7 +160,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/vehicle'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Minivan
 								</Link>
@@ -168,7 +168,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/vehicle'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Cabriolet
 								</Link>
@@ -176,7 +176,7 @@ export default function Footer() {
 							<li>
 								<Link
 									href='/vehicle'
-									className='hover:text-primary transition-colors'
+									className='hover:text-primary transition-colors duration-200'
 								>
 									Pickup
 								</Link>
@@ -185,15 +185,15 @@ export default function Footer() {
 					</div>
 
 					<div className='flex flex-col gap-4'>
-						<h2 className='font-semibold text-[18px] md:text-[20px]'>
+						<h2 className='font-semibold text-[18px] md:text-[20px] text-main transition-colors duration-200'>
 							Download App
 						</h2>
 						<AppBadges />
 					</div>
 				</div>
 
-				<div className='pt-6 text-center'>
-					<p className='font-normal text-[14px] text-text-main/50'>
+				<div className='pt-6 text-center border-t border-border-main transition-colors duration-200'>
+					<p className='font-normal text-[14px] text-text-subtle transition-colors duration-200'>
 						© {new Date().getFullYear()} Driveo. All rights reserved.
 					</p>
 				</div>

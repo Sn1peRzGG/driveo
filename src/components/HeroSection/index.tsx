@@ -29,7 +29,7 @@ export default function HeroSection() {
 	}
 
 	return (
-		<div className='rounded-[30px] xl:rounded-[40px] h-auto xl:h-165 bg-primary relative p-6 sm:p-10 xl:p-20 shadow-lg'>
+		<div className='rounded-[30px] xl:rounded-[40px] h-auto xl:h-165 bg-primary relative p-6 sm:p-10 xl:p-20 shadow-lg transition-colors duration-200'>
 			<Image
 				src='/skid_marks.png'
 				alt='Skid Marks'
@@ -60,13 +60,13 @@ export default function HeroSection() {
 					</p>
 					<Link
 						href='/vehicles'
-						className='h-10 w-40 cursor-pointer px-7 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl flex items-center justify-center font-semibold text-[16px] transition-all duration-300 font-inter shadow-md'
+						className='h-10 w-40 cursor-pointer px-7 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl flex items-center justify-center font-semibold text-[16px] transition-colors duration-200 font-inter shadow-md'
 					>
 						View all cars
 					</Link>
 				</div>
 
-				<div className='h-full w-full xl:w-1/3 bg-card-bg text-text-main rounded-[20px] shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between gap-5 relative z-10 border border-border-main'>
+				<div className='h-full w-full xl:w-1/3 bg-card-bg text-text-main rounded-[20px] shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between gap-5 relative z-10 border border-border-main transition-colors duration-200'>
 					<h2 className='font-work-sans font-semibold text-[24px] xl:text-[28px] text-center text-main'>
 						Book your car
 					</h2>
@@ -101,7 +101,7 @@ export default function HeroSection() {
 						/>
 					</div>
 					<button
-						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-all duration-300 px-7 py-3 cursor-pointer shadow-md'
+						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-colors duration-200 px-7 py-3 cursor-pointer shadow-md'
 						onClick={handleBooking}
 					>
 						Book now

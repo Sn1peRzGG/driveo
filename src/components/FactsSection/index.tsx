@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 export default function FactsSection() {
 	return (
-		<div className='py-10 px-6 sm:py-12 sm:px-10 xl:py-15 xl:px-18 rounded-[20px] bg-primary text-white font-work-sans flex flex-col items-center relative overflow-hidden transition-colors duration-300'>
+		<div className='py-10 px-6 sm:py-12 sm:px-10 xl:py-15 xl:px-18 rounded-[20px] bg-primary text-white font-work-sans flex flex-col items-center relative overflow-hidden transition-colors duration-200'>
 			<Image
 				src='/skid_marks2.png'
 				alt='Skid Marks'
@@ -29,7 +29,7 @@ export default function FactsSection() {
 						return (
 							<div
 								key={index}
-								className='bg-card-bg border border-border-main rounded-[20px] p-4 flex gap-4 w-full xl:w-60 shadow-md transition-all duration-300'
+								className='bg-card-bg border border-border-main rounded-[20px] p-4 flex gap-4 w-full xl:w-60 shadow-md'
 							>
 								<div className='w-16 h-16 sm:w-18 sm:h-16 shrink-0 rounded-xl bg-accent text-white flex items-center justify-center transition-colors'>
 									<IconComponent />

@@ -64,7 +64,7 @@ export default function NavBar({
 								>
 									<Link
 										href={item.href}
-										className='group relative flex items-center gap-1 transition-colors duration-200 hover:text-primary'
+										className='group relative flex items-center gap-1 transition-colors hover:text-primary'
 									>
 										<span
 											className={
@@ -74,7 +74,7 @@ export default function NavBar({
 											{item.label}
 										</span>
 										<span
-											className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full ${
+											className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all group-hover:w-full ${
 												isActive ? 'w-full' : 'w-0'
 											}`}
 										/>
@@ -115,7 +115,7 @@ export default function NavBar({
 			)}
 
 			<div
-				className={`xl:hidden fixed top-0 left-0 h-full w-80 bg-card-bg z-50 shadow-2xl transform transition-transform duration-300 flex flex-col border-r border-border-main ${
+				className={`xl:hidden fixed top-0 left-0 h-full w-80 bg-card-bg z-50 shadow-2xl transform transition-transform duration-200 flex flex-col border-r border-border-main ${
 					isMenuOpen ? 'translate-x-0' : '-translate-x-full'
 				}`}
 			>
@@ -155,7 +155,7 @@ export default function NavBar({
 									<Link
 										href={item.href}
 										onClick={() => setIsMenuOpen(false)}
-										className={`block py-2.5 px-3 rounded-md transition-colors font-inter text-base ${
+										className={`block py-2.5 px-3 rounded-md font-inter text-base ${
 											isActive
 												? 'bg-ui-hover text-primary font-bold'
 												: 'text-main hover:bg-ui-hover'

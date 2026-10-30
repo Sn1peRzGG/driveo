@@ -17,7 +17,7 @@ export default function Header({
 	const [isMenuOpen, setIsMenuOpen] = useState(false)
 
 	return (
-		<header className='fixed w-full bg-card-bg h-24 flex items-center z-50 shadow-sm transition-colors duration-300'>
+		<header className='fixed w-full bg-card-bg h-24 flex items-center z-50 shadow-sm transition-colors duration-200'>
 			<NavBar
 				isMenuOpen={isMenuOpen}
 				setIsMenuOpen={setIsMenuOpen}
