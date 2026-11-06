@@ -99,7 +99,7 @@ export default function DropdownInput({
 
 							return (
 								<div
-									key={index}
+									key={option.value}
 									onClick={() => {
 										onSelect(option.value)
 										setIsOpen(false)

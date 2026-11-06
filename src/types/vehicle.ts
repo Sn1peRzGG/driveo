@@ -1,15 +1,16 @@
-import { CategoryType } from './category'
+import { Category } from './category'
+import { City } from './city'
 
-export type VehicleType = {
+export interface Vehicle {
 	_id: string
 	brand: string
 	model: string
 	description: string
 	image: string
-	category: CategoryType
+	category: string | Category
+	city: string | City
 	pricePerDay: number
 	seats: number
-	city: string
 	type: string
 	isAvailable: boolean
 	isDeleted: boolean
@@ -18,11 +19,13 @@ export type VehicleType = {
 }
 
 export interface PaginatedVehicles {
-	data: VehicleType[]
+	data: Vehicle[]
 	meta: {
 		total: number
 		page: number
 		limit: number
 		pages: number
+		minPrice: number
+		maxPrice: number
 	}
 }

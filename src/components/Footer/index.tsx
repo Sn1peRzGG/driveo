@@ -3,7 +3,7 @@
 import { contactItems } from '@/constants/footerItems'
 import socialData from '@/constants/socialItems.json'
 import api from '@/src/lib/api'
-import { CategoryType } from '@/src/types/category'
+import { Category } from '@/src/types/category'
 import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import AppBadges from '../ui/AppBadges'
@@ -18,11 +18,11 @@ interface SocialItem {
 const socialMediaData: SocialItem[] = socialData
 
 export default function Footer() {
-	const { data: categories = [] } = useQuery<CategoryType[]>({
+	const { data: categories = [] } = useQuery<Category[]>({
 		queryKey: ['categories'],
 		queryFn: async () => {
 			const res = await api.get('/categories')
-			return res.data
+			return res.data.data
 		},
 		staleTime: 1000 * 60 * 10,
 	})

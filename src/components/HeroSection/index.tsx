@@ -5,7 +5,8 @@ import DropdownInput, {
 	DropdownOption,
 } from '@/src/components/ui/DropdownInput'
 import api from '@/src/lib/api'
-import { CategoryType } from '@/src/types/category'
+import { Category } from '@/src/types/category'
+import { City } from '@/src/types/city'
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -21,20 +22,20 @@ export default function HeroSection() {
 	const [rentalDate, setRentalDate] = useState<string>('')
 	const [returnDate, setReturnDate] = useState<string>('')
 
-	const { data: categories = [] } = useQuery<CategoryType[]>({
+	const { data: categories = [] } = useQuery<Category[]>({
 		queryKey: ['categories'],
 		queryFn: async () => {
 			const res = await api.get('/categories')
-			return res.data
+			return res.data.data
 		},
 		staleTime: 1000 * 60 * 10,
 	})
 
-	const { data: locations = [] } = useQuery<string[]>({
+	const { data: locations = [] } = useQuery<City[]>({
 		queryKey: ['vehicle-cities'],
 		queryFn: async () => {
-			const res = await api.get('/vehicles/cities')
-			return res.data
+			const res = await api.get('/cities')
+			return res.data.data
 		},
 		staleTime: 1000 * 60 * 10,
 	})
@@ -44,14 +45,28 @@ export default function HeroSection() {
 		value: cat._id,
 	}))
 
+	const cityOptions: DropdownOption[] = locations.map(city => ({
+		label: city.name,
+		value: city._id,
+	}))
+
 	const handleSearch = () => {
+		if (!placeOfRental || !rentalDate || !returnDate) return
+
+		if (rentalDate >= returnDate) {
+			alert('Return date must be after rental date.')
+			return
+		}
+
 		const params = new URLSearchParams()
 
-		if (carType) params.append('category', carType)
-		if (placeOfRental) params.append('city', placeOfRental)
-		if (placeOfReturn) params.append('returnCity', placeOfReturn)
-		if (rentalDate) params.append('rentalDate', rentalDate)
-		if (returnDate) params.append('returnDate', returnDate)
+		if (carType) params.set('category', carType)
+		params.set('city', placeOfRental)
+
+		if (placeOfReturn) params.set('returnCity', placeOfReturn)
+
+		params.set('rentalDate', rentalDate)
+		params.set('returnDate', returnDate)
 
 		router.push(`/vehicles?${params.toString()}`)
 	}
@@ -99,37 +114,48 @@ export default function HeroSection() {
 						Book your car
 					</h2>
 					<div className='w-full flex flex-col gap-4 xl:gap-5 overflow-visible'>
-						<DropdownInput
-							label='Car type'
-							options={categoryOptions}
-							selected={carType}
-							onSelect={setCarType}
-						/>
-						<DropdownInput
-							label='Place of rental'
-							options={locations}
-							selected={placeOfRental}
-							onSelect={setPlaceOfRental}
-						/>
-						<DropdownInput
-							label='Place of return'
-							options={locations}
-							selected={placeOfReturn}
-							onSelect={setPlaceOfReturn}
-						/>
-						<CalendarInput
-							label='Rental date'
-							selectedDate={rentalDate}
-							onSelectDate={setRentalDate}
-						/>
-						<CalendarInput
-							label='Return date'
-							selectedDate={returnDate}
-							onSelectDate={setReturnDate}
-						/>
+						<div className='relative z-50'>
+							<DropdownInput
+								label='Car type'
+								options={categoryOptions}
+								selected={carType}
+								onSelect={setCarType}
+							/>
+						</div>
+						<div className='relative z-40'>
+							<DropdownInput
+								label='Place of rental'
+								options={cityOptions}
+								selected={placeOfRental}
+								onSelect={setPlaceOfRental}
+							/>
+						</div>
+						<div className='relative z-30'>
+							<DropdownInput
+								label='Place of return'
+								options={cityOptions}
+								selected={placeOfReturn}
+								onSelect={setPlaceOfReturn}
+							/>
+						</div>
+						<div className='relative z-20'>
+							<CalendarInput
+								label='Rental date'
+								selectedDate={rentalDate}
+								onSelectDate={setRentalDate}
+							/>
+						</div>
+						<div className='relative z-10'>
+							<CalendarInput
+								label='Return date'
+								selectedDate={returnDate}
+								onSelectDate={setReturnDate}
+							/>
+						</div>
 					</div>
 					<button
-						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-colors duration-200 px-7 py-3 cursor-pointer shadow-md'
+						type='button'
+						className='w-full rounded-xl bg-accent hover:bg-accent-hover text-white font-inter font-semibold text-[16px] transition-colors duration-200 px-7 py-3 cursor-pointer shadow-md mt-2'
 						onClick={handleSearch}
 					>
 						Book now
