@@ -12,6 +12,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 export default function HeroSection() {
 	const router = useRouter()
@@ -51,10 +52,13 @@ export default function HeroSection() {
 	}))
 
 	const handleSearch = () => {
-		if (!placeOfRental || !rentalDate || !returnDate) return
+		if (!placeOfRental || !rentalDate || !returnDate) {
+			toast.error('Please fill in all required fields.')
+			return
+		}
 
 		if (rentalDate >= returnDate) {
-			alert('Return date must be after rental date.')
+			toast.error('Return date must be after rental date.')
 			return
 		}
 
