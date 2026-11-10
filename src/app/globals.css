@@ -91,6 +91,11 @@
 	}
 }
 
+@utility drag-none {
+	user-drag: none;
+	-webkit-user-drag: none;
+}
+
 :root {
 	--font-sans: var(--font-work-sans);
 }
