@@ -41,7 +41,7 @@ export default function VehiclePriceRangeFilter() {
 
 	return (
 		<FilterSection title='Price Range'>
-			<div className='pb-2'>
+			<div className='pb-2 px-3'>
 				{isSliderDisabled ? (
 					<div className='mt-2 h-1 w-full rounded-full bg-gray-200' />
 				) : (

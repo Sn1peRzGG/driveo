@@ -14,7 +14,7 @@ export default function VehicleCategoryFilter() {
 	}))
 
 	return (
-		<FilterSection title='Categories'>
+		<FilterSection title='Category'>
 			<FilterButtonList
 				options={options}
 				currentValue={currentCategory}

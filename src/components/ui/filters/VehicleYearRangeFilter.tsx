@@ -41,7 +41,7 @@ export default function VehicleYearRangeFilter() {
 
 	return (
 		<FilterSection title='Year of Production'>
-			<div className='pb-2'>
+			<div className='pb-2 px-3'>
 				{isSliderDisabled ? (
 					<div className='mt-2 h-1 w-full rounded-full bg-white/10' />
 				) : (
