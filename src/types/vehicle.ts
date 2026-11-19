@@ -1,18 +1,20 @@
+import { Brand } from './brand'
 import { Category } from './category'
 import { City } from './city'
+import { Model } from './model'
 
 export type VehicleTransmission = 'AUTOMATIC' | 'MANUAL'
 export type VehicleFuelType = 'PETROL' | 'DIESEL' | 'HYBRID' | 'ELECTRIC'
 
 export interface Vehicle {
 	_id: string
-	brand: string
-	model: string
+	brand: Brand
+	model: Model
 	year: number
 	description: string
 	images: string[]
-	category: string | Category
-	city: string | City
+	category: Category
+	city: City
 	pricePerDay: number
 	seats: number
 	transmission: VehicleTransmission
@@ -27,7 +29,8 @@ export interface Vehicle {
 }
 
 export interface VehicleMetaOptions {
-	brands: string[]
+	brands: Brand[]
+	models: Model[]
 	categories: { _id: string; name: string }[]
 	cities: { _id: string; name: string }[]
 	transmissions: string[]

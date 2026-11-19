@@ -4,6 +4,7 @@ import { BASE_URL } from '@/src/lib/api'
 import { Vehicle } from '@/src/types/vehicle'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { DoorsIcon, FuelIcon, GearboxIcon, SeatIcon } from '../VehicleIcons'
 
@@ -32,7 +33,7 @@ export default function FullVehicleCard(vehicle: Vehicle) {
 			<div className='flex flex-col gap-6'>
 				<div>
 					<h1 className='text-3xl md:text-4xl font-bold text-text-main tracking-tight'>
-						{vehicle.brand} {vehicle.model} {vehicle.year}
+						{vehicle.brand.name} {vehicle.model.name} {vehicle.year}
 					</h1>
 					<div className='flex flex-row items-baseline gap-1 mt-2'>
 						<span className='text-primary text-3xl font-bold'>
@@ -45,7 +46,7 @@ export default function FullVehicleCard(vehicle: Vehicle) {
 				<div className='relative h-75 md:h-90 w-full flex items-center justify-center overflow-hidden rounded-2xl bg-card-bg border border-border-main p-4'>
 					<Image
 						src={`${BASE_URL}${selectedImage}`}
-						alt={`${vehicle.brand} ${vehicle.model}`}
+						alt={`${vehicle.brand.name} ${vehicle.model.name}`}
 						fill
 						className='object-contain p-2 transition-transform duration-300 hover:scale-105 drag-none select-none'
 						unoptimized
@@ -148,9 +149,12 @@ export default function FullVehicleCard(vehicle: Vehicle) {
 					</div>
 				)}
 
-				<button className='w-full py-4 bg-primary hover:bg-primary-hover text-white font-semibold text-lg rounded-xl shadow-md transition-colors cursor-pointer active:scale-[0.99]'>
+				<Link
+					href={`/vehicles/${vehicle._id}/book`}
+					className='w-full py-4 bg-primary hover:bg-primary-hover text-white font-semibold text-lg rounded-xl shadow-md transition-colors flex items-center justify-center active:scale-[0.99]'
+				>
 					Rent a car
-				</button>
+				</Link>
 
 				{carFeatures.length > 0 && (
 					<div>

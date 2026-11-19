@@ -1,6 +1,6 @@
 import { Vehicle } from './vehicle'
 
-export type UserRole = 'USER' | 'ADMIN' | 'OWNER'
+export type UserRole = 'USER' | 'ADMIN' | 'FLEET_ADMIN' | 'SYSADMIN' | 'OWNER'
 
 export interface User {
 	_id: string
@@ -9,10 +9,9 @@ export interface User {
 	lastName: string
 	phoneNumber: string
 	city: string
-	address: string
 	role: UserRole
 	avatarUrl: string
-	savedVehicles: Array<string | Vehicle>
+	savedVehicles: Array<Vehicle>
 	createdAt: string
 	updatedAt: string
 }

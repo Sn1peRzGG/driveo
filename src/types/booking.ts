@@ -4,15 +4,14 @@ import { Vehicle } from './vehicle'
 
 export type BookingStatus =
 	'PENDING' | 'CONFIRMED' | 'ACTIVE' | 'COMPLETED' | 'CANCELLED'
-
 export interface Booking {
 	_id: string
-	user: string | User
-	vehicle: string | Vehicle
+	user: User
+	vehicle: Vehicle
 	startDate: string
 	endDate: string
-	pickupCity: string | City
-	returnCity: string | City
+	pickupCity: City
+	returnCity: City
 	totalPrice: number
 	oneWayFee: number
 	status: BookingStatus

@@ -9,8 +9,8 @@ export default function VehicleBrandFilter() {
 	const currentBrand = getParam('brand') || 'all'
 
 	const options = (meta?.options?.brands || []).map(brand => ({
-		id: brand,
-		label: brand,
+		id: brand._id,
+		label: brand.name,
 	}))
 
 	return (

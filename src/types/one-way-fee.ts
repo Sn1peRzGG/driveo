@@ -2,8 +2,8 @@ import { City } from './city'
 
 export interface OneWayFee {
 	_id: string
-	originCity: string | City
-	destinationCity: string | City
+	originCity: City
+	destinationCity: City
 	fee: number
 	createdAt: string
 	updatedAt: string

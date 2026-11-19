@@ -28,7 +28,9 @@ export default function VehicleDetailPage() {
 		retry: false,
 	})
 
-	const vehicleName = vehicle ? `${vehicle.brand} ${vehicle.model}` : ''
+	const vehicleName = vehicle
+		? `${vehicle.brand.name} ${vehicle.model.name}`
+		: ''
 
 	useEffect(() => {
 		setMounted(true)

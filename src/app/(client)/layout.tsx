@@ -1,12 +1,12 @@
 import Breadcrumbs from '@/src/components/ui/Breadcrumbs'
-// import ConfigButton from '@/src/components/ui/ConfigButton'
+import ConfigButton from '@/src/components/ui/ConfigButton'
 import Footer from '@/src/components/Footer'
 import Header from '@/src/components/Header'
 import ScrollToTop from '@/src/components/ui/ScrollToTop'
 import ThemeToggle from '@/src/components/ui/ThemeToggle'
 import { BreadcrumbsProvider } from '@/src/context/BreadcrumbsContext'
 
-export default function ShopLayout({
+export default function ClientLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
@@ -20,7 +20,7 @@ export default function ShopLayout({
 					{children}
 					<div className='fixed right-4 bottom-4 z-20 flex flex-col gap-4'>
 						<ThemeToggle />
-						{/* <ConfigButton /> */}
+						<ConfigButton />
 						<ScrollToTop />
 					</div>
 				</BreadcrumbsProvider>
