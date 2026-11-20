@@ -7,6 +7,7 @@ export interface User {
 	email: string
 	firstName: string
 	lastName: string
+	birthDate: string
 	phoneNumber: string
 	city: string
 	role: UserRole

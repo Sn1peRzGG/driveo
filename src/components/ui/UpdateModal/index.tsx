@@ -4,7 +4,7 @@ import { BASE_URL } from '@/src/lib/api'
 import { Folder, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { FormFileField, FormInput } from '../FormFields'
+import { FormBirthDatePicker, FormFileField, FormInput } from '../FormFields'
 
 interface UpdateModalProps {
 	isOpen: boolean
@@ -13,6 +13,7 @@ interface UpdateModalProps {
 		firstName: string
 		lastName: string
 		email: string
+		birthDate: string
 		phoneNumber: string
 		city: string
 		imageFile: File | null
@@ -25,6 +26,7 @@ interface UpdateModalProps {
 		firstName: string
 		lastName: string
 		email: string
+		birthDate?: string
 		phoneNumber: string
 		city?: string
 		imageUrl?: string
@@ -44,6 +46,8 @@ export default function UpdateModal({
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setLastName] = useState('')
 	const [email, setEmail] = useState('')
+	const [birthDate, setBirthDate] = useState('')
+	const [birthDateError, setBirthDateError] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
 	const [city, setCity] = useState('')
 	const [imageFile, setImageFile] = useState<File | null>(null)
@@ -55,6 +59,10 @@ export default function UpdateModal({
 			setFirstName(initialData.firstName)
 			setLastName(initialData.lastName)
 			setEmail(initialData.email)
+			setBirthDate(
+				initialData.birthDate ? initialData.birthDate.split('T')[0] : '',
+			)
+			setBirthDateError('')
 			setPhoneNumber(initialData.phoneNumber)
 			setCity(initialData.city || '')
 			setImageFile(null)
@@ -78,6 +86,29 @@ export default function UpdateModal({
 		}
 	}, [isOpen, isLoading, onClose])
 
+	const validateBirthDate = (dateStr: string): string => {
+		if (!dateStr) return 'Birth date is required'
+
+		const parsed = new Date(dateStr)
+		if (Number.isNaN(parsed.getTime()) || dateStr.length < 10) {
+			return 'Invalid date format (MM/DD/YYYY)'
+		}
+
+		const today = new Date()
+		let age = today.getFullYear() - parsed.getFullYear()
+		const monthDiff = today.getMonth() - parsed.getMonth()
+
+		if (
+			monthDiff < 0 ||
+			(monthDiff === 0 && today.getDate() < parsed.getDate())
+		) {
+			age--
+		}
+
+		if (age < 18) return 'You must be at least 18 years old'
+		return ''
+	}
+
 	const handleImageChange = (file: File) => {
 		setImageFile(file)
 
@@ -88,8 +119,15 @@ export default function UpdateModal({
 		reader.readAsDataURL(file)
 	}
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = (e: React.SubmitEvent) => {
 		e.preventDefault()
+
+		const dateErr = validateBirthDate(birthDate)
+		if (dateErr) {
+			setBirthDateError(dateErr)
+			return
+		}
+
 		if (
 			!firstName.trim() ||
 			!lastName.trim() ||
@@ -103,6 +141,7 @@ export default function UpdateModal({
 			firstName,
 			lastName,
 			email,
+			birthDate: new Date(birthDate).toISOString(),
 			phoneNumber,
 			city,
 			imageFile,
@@ -173,6 +212,19 @@ export default function UpdateModal({
 						placeholder='+49...'
 					/>
 
+					<FormBirthDatePicker
+						label='Birth Date'
+						required
+						disabled={isLoading}
+						value={birthDate}
+						error={birthDateError}
+						onChange={dateString => {
+							setBirthDate(dateString)
+							if (birthDateError) setBirthDateError('')
+						}}
+						tooltipText='You must be at least 18 years old.'
+					/>
+
 					<FormInput
 						label='City'
 						type='text'
@@ -213,10 +265,12 @@ export default function UpdateModal({
 								!firstName.trim() ||
 								!lastName.trim() ||
 								!email.trim() ||
+								!birthDate.trim() ||
 								!phoneNumber.trim() ||
+								!!birthDateError ||
 								!!fileError
 							}
-							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 min-w-22.5 shadow-sm'
+							className='inline-flex justify-center items-center h-10 px-4 rounded-xl text-sm font-semibold text-white bg-primary hover:bg-primary-hover focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed min-w-22.5 shadow-sm'
 						>
 							{isLoading ? (
 								<Loader2 className='animate-spin' size={16} />

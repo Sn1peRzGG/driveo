@@ -49,7 +49,7 @@ export default function LoginPage() {
 		return { isValid, newErrors }
 	}
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.SubmitEvent) => {
 		e.preventDefault()
 
 		const { isValid, newErrors } = validate()
@@ -77,8 +77,7 @@ export default function LoginPage() {
 
 			localStorage.setItem('isLoggedIn', 'true')
 
-			router.refresh()
-			router.push('/account')
+			window.location.href = '/account'
 		} catch (error) {
 			const fieldErrors = getFieldErrors(error)
 

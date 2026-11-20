@@ -25,7 +25,7 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { FormEvent, useEffect, useMemo, useState } from 'react'
+import { SubmitEvent, useEffect, useMemo, useState } from 'react'
 
 export default function BookVehiclePage() {
 	const params = useParams()
@@ -131,7 +131,7 @@ export default function BookVehiclePage() {
 		setEndDate(value)
 	}
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault()
 		setFormError(null)
 

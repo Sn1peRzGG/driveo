@@ -1,25 +1,25 @@
 'use client'
 
-import {
-	bookingStatusMeta,
-	bookingStatusStyles,
-} from '@/constants/bookingStatus'
 import Loading from '@/src/app/loading'
 import BookingStatusBadge from '@/src/components/ui/BookingStatusBadge'
 import ConfirmModal from '@/src/components/ui/ConfirmModal'
 import api, { BASE_URL } from '@/src/lib/api'
-import { Booking, BookingStatus } from '@/src/types/booking'
+import { Booking } from '@/src/types/booking'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Calendar, Car, Loader2, MapPin, XCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 export default function UserBookingsPage() {
+	const [mounted, setMounted] = useState(false)
 	const queryClient = useQueryClient()
-
 	const [bookingToCancel, setBookingToCancel] = useState<string | null>(null)
+
+	useEffect(() => {
+		setMounted(true)
+	}, [])
 
 	const { data: bookings = [], isLoading } = useQuery<Booking[]>({
 		queryKey: ['user-bookings'],
@@ -46,6 +46,7 @@ export default function UserBookingsPage() {
 		},
 	})
 
+	if (!mounted) return null
 	if (isLoading) return <Loading />
 
 	const safeBookings = Array.isArray(bookings) ? bookings : []
@@ -54,23 +55,6 @@ export default function UserBookingsPage() {
 		if (bookingToCancel) {
 			cancelMutation.mutate(bookingToCancel)
 		}
-	}
-
-	const getStatusBadge = (status: BookingStatus) => {
-		const style =
-			bookingStatusStyles[status] ??
-			'bg-ui-hover text-text-muted border-border-main'
-		const meta = bookingStatusMeta[status]
-		const Icon = meta?.icon
-
-		return (
-			<span
-				className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border ${style}`}
-			>
-				{Icon && <Icon size={13} />}
-				{meta?.label ?? status}
-			</span>
-		)
 	}
 
 	return (

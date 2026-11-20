@@ -1,6 +1,6 @@
 'use client'
 
-import { FormInput } from '@/src/components/ui/FormFields'
+import { FormBirthDatePicker, FormInput } from '@/src/components/ui/FormFields'
 import api from '@/src/lib/api'
 import { getApiError } from '@/src/utils/getApiError'
 import { getFieldErrors } from '@/src/utils/getFieldErrors'
@@ -29,6 +29,7 @@ export default function SignupPage() {
 		confirmPassword: '',
 		firstName: '',
 		lastName: '',
+		birthDate: '',
 		phoneNumber: '',
 	})
 
@@ -38,6 +39,7 @@ export default function SignupPage() {
 		confirmPassword: '',
 		firstName: '',
 		lastName: '',
+		birthDate: '',
 		phoneNumber: '',
 	})
 
@@ -52,6 +54,7 @@ export default function SignupPage() {
 			confirmPassword: '',
 			firstName: '',
 			lastName: '',
+			birthDate: '',
 			phoneNumber: '',
 		}
 		let isValid = true
@@ -92,6 +95,28 @@ export default function SignupPage() {
 			isValid = false
 		}
 
+		if (!formData.birthDate) {
+			newErrors.birthDate = 'Birth date is required'
+			isValid = false
+		} else {
+			const birthDate = new Date(formData.birthDate)
+			const today = new Date()
+			let age = today.getFullYear() - birthDate.getFullYear()
+			const monthDiff = today.getMonth() - birthDate.getMonth()
+
+			if (
+				monthDiff < 0 ||
+				(monthDiff === 0 && today.getDate() < birthDate.getDate())
+			) {
+				age--
+			}
+
+			if (age < 18) {
+				newErrors.birthDate = 'You must be at least 18 years old'
+				isValid = false
+			}
+		}
+
 		if (!formData.phoneNumber || !PHONE_REGEX.test(formData.phoneNumber)) {
 			newErrors.phoneNumber = 'Invalid phone number'
 			isValid = false
@@ -100,7 +125,7 @@ export default function SignupPage() {
 		return { isValid, newErrors }
 	}
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.SubmitEvent) => {
 		e.preventDefault()
 
 		const { isValid, newErrors } = validate()
@@ -116,6 +141,7 @@ export default function SignupPage() {
 			confirmPassword: '',
 			firstName: '',
 			lastName: '',
+			birthDate: '',
 			phoneNumber: '',
 		})
 
@@ -127,24 +153,19 @@ export default function SignupPage() {
 			password: formData.password,
 			firstName: formData.firstName,
 			lastName: formData.lastName,
+			birthDate: new Date(formData.birthDate).toISOString(),
 			phoneNumber: formData.phoneNumber,
 		}
 
 		try {
-			await api.post('/users', payload)
+			await api.post('/auth/signup', payload)
 
-			toast.success('Account created!', { id: loadingToast })
-
-			await api.post('/auth/login', {
-				email: payload.email,
-				password: payload.password,
-			})
+			toast.success('Account created and logged in!', { id: loadingToast })
 
 			localStorage.setItem('isLoggedIn', 'true')
 
-			router.refresh()
-			router.push('/account')
-		} catch (error) {
+			window.location.href = '/account'
+		} catch (error: unknown) {
 			const fieldErrors = getFieldErrors(error)
 
 			setErrors(prev => ({
@@ -179,7 +200,7 @@ export default function SignupPage() {
 
 				<form
 					onSubmit={handleSubmit}
-					className='space-y-6 rounded-2xl border border-border-main bg-card-bg backdrop-blur-xl p-8 shadow-xl hover:border-primary/30 transition-all duration-300'
+					className='space-y-6 rounded-2xl border border-border-main bg-card-bg backdrop-blur-xl p-8 shadow-xl hover:border-primary/35 transition-all duration-300'
 				>
 					<FormInput
 						label='First Name'
@@ -188,7 +209,7 @@ export default function SignupPage() {
 						value={formData.firstName}
 						error={errors.firstName}
 						icon={<User size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({ ...prev, firstName: e.target.value }))
 							if (errors.firstName)
 								setErrors(prev => ({ ...prev, firstName: '' }))
@@ -204,7 +225,7 @@ export default function SignupPage() {
 						value={formData.lastName}
 						error={errors.lastName}
 						icon={<User size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({ ...prev, lastName: e.target.value }))
 							if (errors.lastName)
 								setErrors(prev => ({ ...prev, lastName: '' }))
@@ -220,11 +241,24 @@ export default function SignupPage() {
 						value={formData.email}
 						error={errors.email}
 						icon={<Mail size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({ ...prev, email: e.target.value }))
 							if (errors.email) setErrors(prev => ({ ...prev, email: '' }))
 						}}
 						tooltipText='Please enter a valid email address.'
+						required
+					/>
+
+					<FormBirthDatePicker
+						label='Birth Date'
+						value={formData.birthDate}
+						error={errors.birthDate}
+						onChange={dateString => {
+							setFormData(prev => ({ ...prev, birthDate: dateString }))
+							if (errors.birthDate)
+								setErrors(prev => ({ ...prev, birthDate: '' }))
+						}}
+						tooltipText='You must be at least 18 years old.'
 						required
 					/>
 
@@ -235,7 +269,7 @@ export default function SignupPage() {
 						value={formData.phoneNumber}
 						error={errors.phoneNumber}
 						icon={<Phone size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({ ...prev, phoneNumber: e.target.value }))
 							if (errors.phoneNumber)
 								setErrors(prev => ({ ...prev, phoneNumber: '' }))
@@ -251,7 +285,7 @@ export default function SignupPage() {
 						value={formData.password}
 						error={errors.password}
 						icon={<Lock size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({ ...prev, password: e.target.value }))
 							if (errors.password)
 								setErrors(prev => ({ ...prev, password: '' }))
@@ -267,7 +301,7 @@ export default function SignupPage() {
 						value={formData.confirmPassword}
 						error={errors.confirmPassword}
 						icon={<Lock size={18} />}
-						onChange={e => {
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
 							setFormData(prev => ({
 								...prev,
 								confirmPassword: e.target.value,

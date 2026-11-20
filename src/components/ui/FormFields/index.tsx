@@ -3,14 +3,15 @@
 import * as Select from '@radix-ui/react-select'
 import * as Tooltip from '@radix-ui/react-tooltip'
 import {
+	Calendar,
 	Check,
 	ChevronDown,
 	Eye,
 	EyeOff,
-	Image as ImageIcon,
-	X,
-	Upload,
 	HelpCircle,
+	Image as ImageIcon,
+	Upload,
+	X,
 } from 'lucide-react'
 import Image from 'next/image'
 import React, { useState } from 'react'
@@ -330,6 +331,105 @@ export function FormSelect({
 					</Select.Content>
 				</Select.Portal>
 			</Select.Root>
+
+			<div
+				className={`grid transition-all duration-300 ease-out ${
+					error ? 'grid-rows-[1fr] mt-1' : 'grid-rows-[0fr] mt-0'
+				}`}
+			>
+				<div className='overflow-hidden'>
+					<p
+						className={`ml-1 text-xs font-semibold text-accent transition-all duration-300 ${
+							error
+								? 'opacity-100 translate-y-0 scale-100'
+								: 'opacity-0 -translate-y-1 scale-95'
+						}`}
+					>
+						{error}
+					</p>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+interface FormBirthDatePickerProps {
+	label: string
+	value: string
+	onChange: (value: string) => void
+	error?: string
+	tooltipText?: string
+	required?: boolean
+	disabled?: boolean
+}
+
+export const FormBirthDatePicker = ({
+	label,
+	value,
+	onChange,
+	error,
+	tooltipText,
+	required,
+	disabled,
+}: FormBirthDatePickerProps) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		let input = e.target.value.replace(/\D/g, '')
+
+		if (input.length > 8) {
+			input = input.slice(0, 8)
+		}
+
+		if (input.length === 8) {
+			const mm = input.slice(0, 2)
+			const dd = input.slice(2, 4)
+			const yyyy = input.slice(4, 8)
+			onChange(`${yyyy}-${mm}-${dd}`)
+		} else {
+			onChange(e.target.value)
+		}
+	}
+
+	const displayValue = (() => {
+		if (!value) return ''
+		const datePart = value.split('T')[0]
+		if (datePart.includes('-')) {
+			const [yyyy, mm, dd] = datePart.split('-')
+			if (yyyy && mm && dd) return `${mm}/${dd}/${yyyy}`
+		}
+		return value
+	})()
+
+	return (
+		<div className='w-full space-y-1.5 text-left'>
+			<label className='ml-0.5 text-sm font-semibold text-text-muted inline-flex items-center'>
+				{label}
+				{tooltipText && <FieldTooltip text={tooltipText} />}
+			</label>
+
+			<div className='group relative'>
+				<div className='absolute left-3 top-1/2 -translate-y-1/2 text-text-subtle transition-colors group-focus-within:text-primary pointer-events-none'>
+					<Calendar size={18} />
+				</div>
+
+				<input
+					type='text'
+					inputMode='numeric'
+					placeholder='MM/DD/YYYY'
+					value={displayValue}
+					onChange={handleInputChange}
+					required={required}
+					disabled={disabled}
+					maxLength={10}
+					className={`
+            w-full rounded-xl border bg-card-bg py-3 pl-10 pr-4 text-text-main outline-none transition-all text-sm font-medium tracking-wide disabled:opacity-50
+            ${
+							error
+								? 'border-accent focus:ring-4 focus:ring-accent/10'
+								: 'border-border-main focus:border-primary focus:ring-4 focus:ring-[#64B496]/15'
+						}
+          `}
+				/>
+			</div>
 
 			<div
 				className={`grid transition-all duration-300 ease-out ${

@@ -7,6 +7,7 @@ import { useUpdateUser } from '@/src/hooks/useUpdateUser'
 import { BASE_URL } from '@/src/lib/api'
 import { User } from '@/src/types/user'
 import {
+	Calendar,
 	Edit2,
 	LogOut,
 	Mail,
@@ -65,6 +66,7 @@ export default function UserCard({ user }: { user: User }) {
 		firstName: string
 		lastName: string
 		email: string
+		birthDate: string
 		phoneNumber: string
 		city: string
 		imageFile: File | null
@@ -74,6 +76,7 @@ export default function UserCard({ user }: { user: User }) {
 		formData.append('firstName', data.firstName)
 		formData.append('lastName', data.lastName)
 		formData.append('email', data.email)
+		formData.append('birthDate', data.birthDate)
 		formData.append('phoneNumber', data.phoneNumber)
 		formData.append('city', data.city)
 
@@ -167,14 +170,28 @@ export default function UserCard({ user }: { user: User }) {
 						<div className='space-y-3.5 text-sm text-text-muted'>
 							<div className='flex items-center gap-3 min-w-0'>
 								<Mail size={16} className='text-text-subtle shrink-0' />
-								<span className='truncate font-medium'>{user.email}</span>
+								<span className='truncate font-medium'>
+									{user.email || 'N/A'}
+								</span>
 							</div>
 
 							<div className='flex items-center gap-3 min-w-0 border-t border-border-main pt-3.5'>
 								<Phone size={16} className='text-text-subtle shrink-0' />
 								<span className='truncate font-medium tabular-nums'>
-									{user.phoneNumber || '-'}
+									{user.phoneNumber || 'N/A'}
 								</span>
+							</div>
+
+							<div className='flex items-start gap-3 min-w-0 border-t border-border-main pt-3.5'>
+								<Calendar
+									size={16}
+									className='text-text-subtle shrink-0 mt-0.5'
+								/>
+								<div className='min-w-0 flex items-center gap-1.5'>
+									<span className='truncate font-medium shrink-0'>
+										{user.birthDate ? user.birthDate.split('T')[0] : 'N/A'}
+									</span>
+								</div>
 							</div>
 
 							<div className='flex items-start gap-3 min-w-0 border-t border-border-main pt-3.5'>
@@ -183,11 +200,9 @@ export default function UserCard({ user }: { user: User }) {
 									className='text-text-subtle shrink-0 mt-0.5'
 								/>
 								<div className='min-w-0 flex items-center gap-1.5'>
-									{user.city && (
-										<span className='truncate font-medium shrink-0'>
-											{user.city}
-										</span>
-									)}
+									<span className='truncate font-medium shrink-0'>
+										{user.city || 'N/A'}
+									</span>
 								</div>
 							</div>
 						</div>
@@ -213,7 +228,7 @@ export default function UserCard({ user }: { user: User }) {
 								type='button'
 								onClick={() => setShowLogoutConfirm(true)}
 								disabled={isLoggingOut}
-								className='inline-flex items-center justify-center gap-2 px-4 h-9 w-full sm:w-auto rounded-lg border border-border-main bg-main-bg text-xs font-semibold text-text-main hover:bg-neutral-100 dark:hover:bg-neutral-800 active:scale-98 transition-all cursor-pointer shadow-sm'
+								className='inline-flex items-center justify-center gap-2 px-4 h-9 w-full sm:w-auto rounded-lg border border-border-main bg-main-bg text-xs font-semibold text-text-main hover:bg-ui-hover active:scale-98 transition-all cursor-pointer shadow-sm'
 							>
 								<LogOut size={14} className='text-text-muted' />
 								Logout
@@ -278,6 +293,7 @@ export default function UserCard({ user }: { user: User }) {
 					firstName: user.firstName || '',
 					lastName: user.lastName || '',
 					email: user.email || '',
+					birthDate: user.birthDate || '',
 					phoneNumber: user.phoneNumber || '',
 					city: user.city || undefined,
 					imageUrl: user.avatarUrl || undefined,
