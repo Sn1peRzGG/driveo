@@ -100,12 +100,12 @@ export default function FilterButtonList({
 					Loading...
 				</div>
 			) : (
-				<>
-					{visibleOptions.map(option => {
+				<div className='space-y-2.5'>
+					{visibleOptions.map((option, index) => {
 						const isChecked = selectedValues.includes(option.id)
 						return (
 							<label
-								key={option.id}
+								key={`${option.id}-${index}`}
 								className='flex items-center gap-3 cursor-pointer group select-none'
 							>
 								<div className='relative flex items-center justify-center'>
@@ -153,11 +153,11 @@ export default function FilterButtonList({
 								className={`grid transition-all duration-300 ease-in-out ${showAll ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
 							>
 								<div className='overflow-hidden space-y-2.5 pt-2.5'>
-									{hiddenOptions.map(option => {
+									{hiddenOptions.map((option, index) => {
 										const isChecked = selectedValues.includes(option.id)
 										return (
 											<label
-												key={option.id}
+												key={`${option.id}-${index}`}
 												className='flex items-center gap-3 cursor-pointer group select-none'
 											>
 												<div className='relative flex items-center justify-center'>
@@ -225,7 +225,7 @@ export default function FilterButtonList({
 							</button>
 						</>
 					)}
-				</>
+				</div>
 			)}
 		</div>
 	)
