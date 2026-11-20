@@ -170,7 +170,7 @@ export default function UpdateModal({
 						disabled={isLoading}
 						value={phoneNumber}
 						onChange={e => setPhoneNumber(e.target.value)}
-						placeholder='+380...'
+						placeholder='+49...'
 					/>
 
 					<FormInput
@@ -179,7 +179,7 @@ export default function UpdateModal({
 						disabled={isLoading}
 						value={city}
 						onChange={e => setCity(e.target.value)}
-						placeholder='Kyiv'
+						placeholder='Berlin'
 					/>
 
 					<FormFileField

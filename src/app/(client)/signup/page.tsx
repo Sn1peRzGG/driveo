@@ -231,7 +231,7 @@ export default function SignupPage() {
 					<FormInput
 						label='Phone Number'
 						type='text'
-						placeholder='+380991234567'
+						placeholder='+491711234567'
 						value={formData.phoneNumber}
 						error={errors.phoneNumber}
 						icon={<Phone size={18} />}

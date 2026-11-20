@@ -152,7 +152,7 @@ export default function FilterButtonList({
 							<div
 								className={`grid transition-all duration-300 ease-in-out ${showAll ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
 							>
-								<div className='overflow-hidden space-y-2.5 pt-2.5'>
+								<div className='overflow-hidden space-y-2.5'>
 									{hiddenOptions.map((option, index) => {
 										const isChecked = selectedValues.includes(option.id)
 										return (
